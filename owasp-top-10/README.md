@@ -38,16 +38,34 @@ Seu site permite senhas muito comuns? Atacantes podem se aproveitar dessa permis
 
 ### O que evitar
 
-- Permitir senhas fracas, muito comuns;
+- Permitir senhas fracas, muito comuns, ou forçar o uso de senhas muito complexas, o que desestimula a prática de variar senhas pelo usuário;
 - Senhas padrão para recém-chegados usuários;
 - Permite uma recuperação de credenciais, para casos de esquecimento de senha, de maneira fácil, simples;
 - Armazenar senhas no banco de dados sem o uso de criptografia;
-- Não possuir autenticação em mais de um fator ou uma ou mais que sejam simples;
-- Expor IDs de sessão em URLs;
+- Não possuir autenticação em mais de um fator ou uma ou mais que sejam simples (favoreça o "o que eu tenho, o que eu sou e o que eu sei");
+- Expor IDs de sessão em URLs ou em logs;
 - Não invalidar tokens de autenticação quando há um tempo excedido de inatividade ou logout;
+- Pedir ao usuário redefinir a senha de tempos em tempos, reciclando a senha, o que favorece o uso de senhas fracas ou já utilizadas
+- Não utilizar timeouts de sessão
 
 ### Como evitar
+- Implementar multi-factor authentication. Isso evita força bruta, roubo de credenciais etc.;
+- Não utilize credenciais padrão para adms;
+- Implemente serviços de checagem de senhas comuns;
+- Exigir tamanho mínimo de senha de acordo com o grau de criticidade das informações que podem ser acessadas pela credencial;
+- Use as mesmas mensagens independentemente se uma conta está cadastrada ou não. Isso evita ataques em que é possível descobrir se um usuário existe por meio de mensagens de tentativa de login (ataques de enumeração);
+- Limite ou estabeleça um delay para logins falhos. Log as tentativas falhas de login, sobretudo as que tentaram utilizar credenciais de admin;
+- Use frameworks para gerenciar as session IDs, pois eles vão assegurar aleatoriedade dos IDs, ajudam a diminuir a entropia etc.
 
+## A# - Sensitive Data Exposure
 
+### O que é
 
-### Onde Testar
+Nós não podemos armazenar senhas descriptografadas, não é? Alías, nós não podemos deixar de criptografar as informações durante as requisições e respostas do servidor. Isso evita ataques como *man in the middle*. **Sensitive Data Exposure** diz respeito à exposição desnecessária dos dados durante uma comunicação.
+
+### O que evitar
+
+- Não criptografar informações de ponta a ponta;
+- Armazenar informações com texto claro e limpo;
+- Não se atentar a backups que contenham dados não criptografados (precisam ser!!);
+- Não possuir certificados válidos e protocolos de segurança, como o TLS.  
