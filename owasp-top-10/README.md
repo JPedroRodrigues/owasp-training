@@ -57,7 +57,7 @@ Seu site permite senhas muito comuns? Atacantes podem se aproveitar dessa permis
 - Limite ou estabeleça um delay para logins falhos. Log as tentativas falhas de login, sobretudo as que tentaram utilizar credenciais de admin;
 - Use frameworks para gerenciar as session IDs, pois eles vão assegurar aleatoriedade dos IDs, ajudam a diminuir a entropia etc.
 
-## A# - Sensitive Data Exposure
+## A3 - Sensitive Data Exposure
 
 ### O que é
 
@@ -68,4 +68,46 @@ Nós não podemos armazenar senhas descriptografadas, não é? Alías, nós não
 - Não criptografar informações de ponta a ponta;
 - Armazenar informações com texto claro e limpo;
 - Não se atentar a backups que contenham dados não criptografados (precisam ser!!);
-- Não possuir certificados válidos e protocolos de segurança, como o TLS.  
+- Não possuir certificados válidos e protocolos de segurança, como o TLS. 
+
+### Como evitar
+
+- Não armazene dados sensíveis desnecessariamente. Se preciso da informação em somente agora (em algum momento específico), não preciso armazena-la por um longo período;
+- Ademais, todos os dados sensíveis armazenados **precisam** ser criptografados;
+- Use os protocolos de segurança mais avançados;
+- Desabilite o caching para respostas que contenham dados sensíveis;
+- Armazene senhas utilizando-se de algoritmos decentes, como Argon2, scrypt, bcrypt ou PBKDF2;
+- Verifique de maneira independente a eficiência da sua proteção
+
+## A4 - XML External Entities (XXE)
+
+### O que é
+
+Fragilidades atraladas a esse tipo de dado. Se a sua aplicação aceita XML, é bom dar uma olhada! Será que não existe injeção nesse tipo de arquivo? É preciso validar. É preciso sanitizar.
+
+```XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE contato [
+        <!ENTITY meunome SYSTEM "file:///etc/password">
+    ]
+>
+
+<contato>
+    <nome>&meunome;</nome>
+    <nome-oficial>&meunome;</nome-oficial>
+    <telefone tipo="residencial">3218791329</telefone>
+    <telefone tipo="comercial">3218791329</telefone>
+    <telefone tipo="residencial">3218791329</telefone>
+    <telefone tipo="celular">3218791329</telefone>
+    <telefone tipo="residencial">3218791329</telefone>
+</contato>
+```
+
+Ao ler uma entidade externa, há a permissão que o parser do XML leia as infos de um local de fora. Arquivos são carregados, abrindo a porta para que informações sejam trazidas. As portas dos arquivos do seu sistema ficam abertas!
+
+### O que Evitar
+
+
+
+### Como Evitar
+
