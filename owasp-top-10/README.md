@@ -105,9 +105,25 @@ Fragilidades atraladas a esse tipo de dado. Se a sua aplicação aceita XML, é 
 
 Ao ler uma entidade externa, há a permissão que o parser do XML leia as infos de um local de fora. Arquivos são carregados, abrindo a porta para que informações sejam trazidas. As portas dos arquivos do seu sistema ficam abertas!
 
-### O que Evitar
+### Como Evitar
 
+- Usar estrutura de dados mais simples, como JSON;
+- Não serialize dados sensíveis (mais atrelado à exposição);
+- Atualize as bibliotecas que realizam esse processamento;
+- Desative o processamento de entidades externas em XML, utilizando alternativas para tal;
+- Implemente listas positivas ("whitelists") do que vai ser validado e utilizado;
+- Usar validações XSD ou similares para verificar uso de entidades externas;
 
+Caso não seja possível tomar uma ou todas essas medidas de prevenção, proteja ao máximo a seção, o local em que o acesso a informações é feito.
+
+## A5 - Broken Access Control
+
+### O que é
+
+O controle de acesso está quebrado! Assim, algum atacante consegue invadir o sistema. Um exemplo? Imagine um site de cursos, em que você compra cursos para ter acesso. Se, na URI, é feita uma tentativa de acesso a um curso que não foi adquirido, é necessário que haja alguma verificação que valide essa possibilidade de acesso. Caso não haja, aí está o Broken Access Control. Existem diversas formas de atacar desta maneira.
 
 ### Como Evitar
 
+O controle de acesso **precisa** ser do seu controle. Quem acessa dados que são protegidos por mecanismos que estão sob o seu controle? Ninguém.
+- Implemente controles de acesso apenas uma vez (como bibliotecas) e aproveite a sua utilização em outros códigos;
+- Armazene informações sobre quem é proprietário do dado e que pode realizar operações de read, update, delete etc;
