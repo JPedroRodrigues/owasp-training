@@ -127,3 +127,33 @@ O controle de acesso está quebrado! Assim, algum atacante consegue invadir o si
 O controle de acesso **precisa** ser do seu controle. Quem acessa dados que são protegidos por mecanismos que estão sob o seu controle? Ninguém.
 - Implemente controles de acesso apenas uma vez (como bibliotecas) e aproveite a sua utilização em outros códigos;
 - Armazene informações sobre quem é proprietário do dado e que pode realizar operações de read, update, delete etc;
+- Regras de negócio únicas, que estabeleçam uma limitação, precisam ser impostas a nível de domínio;  
+- Desative listagem de diretórios e garanta que arquivos com metadata não estejam expostos;
+- Logue mensagens que indiquem falha de acesso;
+- Limite um número de requisições à sua API
+
+## A6 - Security Misconfiguration
+
+### O que é
+
+Deu mole! Configurou errado os mecanismos de segurança.
+
+### O que Evitar
+
+- Deixar a segurança frouxa, o que pode acontecer principalmente quando sua aplicação está hospedada na cloud;
+- Deixar IPs, portas, serviços, páginas etc abertas desnecessariamente, bem como instalar features desnecessárias (qualquer coisa desnecessária precisa estar desativada);
+- Credenciais padrão ainda ativadas, sem modificação;
+- Stack traces precisam ser escondidos, sendo necessário sua amostragem apenas para fins de debug, entre os desenvolvedores;
+- Para sistemas recém atualizados, algumas novas features de segurança podem estar desabilitadas;
+- Não entender as configurações dos serviços que usa;
+- Não utilizar cabeçalhos de segurança em requisições http;
+- Não atualizar software em uso;
+
+### Como Evitar
+
+- Criar um processo repetitivo de hardening que seja rápido e fácil de realizar deploy. Diferentes ambientes (DEV, QA, PROD) precisam ter as mesmas configurações, mas diferentes credenciais;
+- Começar com uma plataforma mínima, que contenha somente o necessário;
+- Crie um processo de atualização de sistemas;
+- Crie uma arquitetura descentralizada, organizada em diversas camadas, aplicações distribuídas etc;
+- Crie um processo de verificação se as configurações de segurança estão em dia.7
+
