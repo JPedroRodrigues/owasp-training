@@ -155,5 +155,17 @@ Deu mole! Configurou errado os mecanismos de segurança.
 - Começar com uma plataforma mínima, que contenha somente o necessário;
 - Crie um processo de atualização de sistemas;
 - Crie uma arquitetura descentralizada, organizada em diversas camadas, aplicações distribuídas etc;
-- Crie um processo de verificação se as configurações de segurança estão em dia.7
+- Crie um processo de verificação se as configurações de segurança estão em dia.
 
+## A7 - Cross-Site Scripting (XSS)
+
+### O que é
+
+Uma vulnerabilidade que surge no momento em que um código dinâmico é carregado em uma aplicação.
+
+É possível enviar um link a um cliente, contendo um parâmetro malicioso, que captura os cookies do cliente (a exemplo, contendo um ID de sessão) e os passa como parâmetro para o site do atacante. É por exemplos como esse que não se deve abrir links suspeitos
+
+### O que Evitar
+
+- Incluir dados não validados, "escapados", para a saída HTML. Isto facilita a execução arbitrária de JS e HTML no browser da vítima;
+- 
