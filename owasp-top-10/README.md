@@ -168,4 +168,76 @@ Uma vulnerabilidade que surge no momento em que um código dinâmico é carregad
 ### O que Evitar
 
 - Incluir dados não validados, "escapados", para a saída HTML. Isto facilita a execução arbitrária de JS e HTML no browser da vítima;
-- 
+- Armazenar código não sanitizado em seu sistema, o que abre uma vulnerabilidade a todos que acessarem aquele trecho em que o código está;
+
+### Como Evitar
+
+- Escapar dados, sanitizando-os usando frameworks que escapam XSS por design;
+- Escape todos os dados não confiáveis vindos do cliente;
+- Escapar os dados de acordo com o contexto, fazendo ajustes de acordo com a situação;
+- Habilite uma Content Security Policy (CSP), que limita a nível HTTP envio de informações ao seu domínio;
+
+## A8 - Insecure Deserialization
+
+### O que É
+
+Se serializar é transformar a estrutura de um objeto em uma sequência de dados, como bytes, desserializar significa transformar essa sequência no próprio objeto ou dados do meu sistema. É extremamente comum em APIs HTTP.
+
+### O que Evitar
+
+- Aceitar dados serializados de fontes não confiáveis;
+- Usar serializações que não permitem apenas tipos primitivos;
+
+### Como Evitar
+
+- Criar assinaturas de integridade, para que seja possível garantir que os dados enviados pelo cliente sejam realmente os que ele pretendeu resolver;
+- Isolar os programas que executam desserialização em ambientes de baixo privilégio;
+- Logar exceções atreladas à desserialização;
+- Monitorar o padrão de entrada e saída do sistema, de modo a evitar envios de dados muito diferentes do esperado;
+- Monitorar desserializações feitas constantemente.
+
+## A9 - Using Components With Know Vulnerabilities
+
+### O que É
+
+Usar componentes cujas versões possuem vulnerabilidades, brechas, riscos amplamente conhecidos.
+
+### O que Evitar
+
+- Desconher as versões de todos os componentes que usa, sobretudo as dependências atreladas a ele, que só existem graças ao uso do componente;
+- Usar software datado, sem suporte e vulnerável, o que inclui um sistema de BD, OS, servidor web, APIs, bibliotecas, dentre outros ambientes de execução;
+- Não escanear recorrentemente as vulnerabilidades atreladas ao sistema e suas dependências, seus componentes;
+- Não corrigir riscos associados à plataforma no tempo adequado;
+- Não testar, como desenvolvedor, a compatibilidade de atualizações;
+
+### Como Evitar
+
+- Remover dependências, compoenentes, documentações inutilizadas (se não usa, remova!);
+- Monitore constantemente as vulnerabilidade dos seus compoenentes;
+- Se inscreva em alertas de vulnerabilidade;
+- Obtenha componentes somente de fontes oficiais e seguras, confiáveis;
+- Monitore bibliotecas que não são mais mantidas, para eventuais riscos de segurança;
+- Organize triagens, verificações, entre outros, que sejam constantes;
+
+## A10 Insufficient Logging & Monitoring
+
+### O que É
+
+O logging, comumente verbalizado como "logar", consiste no ato de apresentar em uma área mensagens que evidenciem o comportamento ou o resultado de ações do sistema. Nesse caso, o risco está atrelado à falta desse tipo de monitoramento.
+
+### O que Evitar
+
+- Não logar constantemente e suficientemente ações em trechos críticos do sistema, como em logins ou transações de alto valor;
+- Warnings e erros geram mensagens inadequadas ou sem muita clareza;
+- Logs de aplicações não são monitorados a fim de detectar atividades suspeitas;
+- Armazenar logs localmente, na máquina em que o sistema está localizado;
+- Não definir thresholds, níveis de severidade, em que seja possível escalar o pedido a suporte;
+- Não realizar testes de penetração constantemente, de modo a observar se o sistema loga informações como deveria ou não;
+
+### Como Evitar
+
+- Garantir que cada falha seja logada de qualquer maneira, de modo a facilitar a identificação de atividades suspeitas, ataques;
+- Garantir que os logs sejam gerados em um formato (e armazenados) de modo que possam ser gerenciados e consumidos da maneira devida;
+- Garantir que operações críticas possuam uma auditoria, em que seja garantido o armazenamento de toda trilha realizada para a execução da operação;
+- Estabeleça ações efetivas de monitoramento e de alerta de tal modo que atividades suspeitas sejam detectadas devidamente;
+- Estabeleça um plano de ação, de resposta, de controle a ataques;
