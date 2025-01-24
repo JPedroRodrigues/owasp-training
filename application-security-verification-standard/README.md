@@ -155,3 +155,14 @@ Aqui, vamos lidar com injections dos mais diversos tipos, como SQL, XSS, shell e
 
 - 6.2.1: Verifique que em módulos de criptografia haja falhas seguras, em que os erros sejam manuseados de forma que não permitam ataques Padding Oracle, em que há a exploração de dicas em mensagens de erro.
 
+## V7 Error Handling and Loggin Verification Requirements
+
+Logs de alta qualidade sempre terão dados sensíveis incluídos. O que precisa ser feito é protegê-los por meio de regras locais ou diretivas, o que inclui:
+- Não coletar informações sensíveis para log a não ser que seja expressamente requisitado;
+- Assegurar que toda informação que aparecer em logs é manuseada com segurança pela sua classificação;
+- Assegurar que todos os logs não são armazenados para sempre.
+
+### V7.1: Log Content Requirements
+
+- 7.1.1: Verifique que a aplicação não apresente em seus logs credenciais e detalhes de pagamento. Tokens de sessão devem ser armazenados em log somente em modo hash e de maneira irreversível;
+- 7.1.2: Verifique que a aplicação não apresente em seus logs qualquer tipo de dado sensível;
