@@ -91,7 +91,7 @@ Vamos garantir que os usuários acessem somente aquilo que lhes é de direito.
 ### V4.1 General Access Control Design
 
 - 4.1.1: Verifique que o controile de acesso é aplicado na camada do servidor ao invés da camada do cliente;
-- 4.1.2: Verifique que os usuários e todos os atributos relacionados a eles não sejam manuseados por usuários não autorizados; 
+- 4.1.2: Verifique que os usuários e todos os atributos relacionados a eles não sejam manuseados por usuários não autorizados;
 - 4.1.3: Verifique o princípio do "mínimo de privilégio", em que cada usuário, por padrão, tenha acesso ao mínimo possível;
 - 4.1.4: Verifique que o princípio de negação existe assim que um usuário é criado no sistema, em que haja permissões mínimas ou nenhuma desde o princípio;
 - 4.1.5: Verifique que o controle de acesso falhe de uma forma segura, mesmo quando ocorra uma exceção.
@@ -112,7 +112,7 @@ Aqui, vamos lidar com injections dos mais diversos tipos, como SQL, XSS, shell e
 
 ### V5.1 Input Validation Requirements
 
-- 5.1.1: Verifique que a aplicação possui defesas contra ataques de poluição de parâmetros HTTP; 
+- 5.1.1: Verifique que a aplicação possui defesas contra ataques de poluição de parâmetros HTTP;
 - 5.1.2: Verifique que os frameworks se protegem de ataques de atribuição de parâmetros em massa ou valores inseguros;
 - 5.1.3: Verifique que todos os inputs vindos de uma requisição HTTP são validados com uma lista positiva;
 - 5.1.4: Verifique que a estrutura do dado é fortemente tipada e validada com um esquema (schema) ou que campos relacionado sejam validados, como CEP e o nome da cidade, de uma rua;
@@ -166,3 +166,43 @@ Logs de alta qualidade sempre terão dados sensíveis incluídos. O que precisa 
 
 - 7.1.1: Verifique que a aplicação não apresente em seus logs credenciais e detalhes de pagamento. Tokens de sessão devem ser armazenados em log somente em modo hash e de maneira irreversível;
 - 7.1.2: Verifique que a aplicação não apresente em seus logs qualquer tipo de dado sensível;
+
+### V7.2 Log Processing Requirements
+
+- 7.2.1: Verifique que todas as decisões que envolvem autenticação são logadas, sem armazenar dados sensíveis (ao invés de armazenar senhas e tokens de sessão no logo, armazenar o id de usuário);
+- 7.2.2: Verifique que todos os logs de falha relacionados ao controle de acesso são armazenados, mas há também a possibilidade de armazenar os logs também que envolvem sucesso nesse âmbito.
+
+### V7.3 Log Protection Requirements
+
+- 7.3.1: Encode os inputs do usuário para evitar injections em log.
+
+### V7.4 Error Handling
+
+- 7.4.1: Verifique que uma mensagem genérica é evidenciada quando algo inesperado ou um erro de segurança ocorre, para que dados sensíveis não sejam vazados.
+
+## V8 Data Protection Verification Requirements
+
+Quando tratamos de segurança dos dados, pensamos nos seguintes pilares:
+- Confidencialidade: os dados devem ser protegidos de acessos não autorizados, quando são armazenados ou em se encontram em trânsito;
+- Integridade: os dados não devem ser alterados, deletados ou substituídos por atacantes não autorizados;
+- Disponibilidade: quem tem direito ao acesso precisa acessar.
+
+### V8.1 General Data Protection
+
+- 8.1.1: Verifique que a aplicação protege dados sensíveis de serem armazenados em cache;
+- 8.1.5: Verifique que backups funcionem corretamente.
+
+### V8.2
+
+- 8.2.1: Verifique que a aplicação ututiliza headers anti-caching o suficiente de modo que dados sensíveis não sejam armazenados em cache por navegadores modernos;
+- 8.2.2: Verifique que dados armazenados no lado do cliente (como o HTML5 local storage, session storage etc.) não contenham dados sensíveis.
+- 8.2.3: Verificar que dados autenticados sejam limpos no lado do cliente após a sessão ser terminada.
+
+### V8.3 Sensitive Private Data
+
+- 8.3.1: Verifique que dados sensíveis estejam presenter no corpo (body) da requisição e jamais nos headers;
+- 8.3.2: Verifique que os usuários possuem alguma modo de remover ou exportar seus dados sob demanda;
+- 8.3.3: Verifique que os usuários consentem expressamente que os dados sejam tratados pela aplicação;
+- 8.3.4: Verifique que todos os dados sensíveis manuseados pela aplicação possuam regras claras de como devem ser tratados;
+
+Obs: essas regras podem variar de acordo com as leis locais e devem segui-las.
