@@ -205,4 +205,108 @@ Quando tratamos de segurança dos dados, pensamos nos seguintes pilares:
 - 8.3.3: Verifique que os usuários consentem expressamente que os dados sejam tratados pela aplicação;
 - 8.3.4: Verifique que todos os dados sensíveis manuseados pela aplicação possuam regras claras de como devem ser tratados;
 
-Obs: essas regras podem variar de acordo com as leis locais e devem segui-las.
+Obs: regras dessa natureza podem variar de acordo com as leis locais e devem segui-las.
+
+## V9: Communications Verification Requirements
+
+### V9.1 Communications Security Requirements
+
+- 9.1.1: Verifique que Verifique que o protocolo TLS é utilizado em todas as conexões do cliente, evitando, como fallback, conexões inseguras;
+- 9.1.2: Verifique que são utilizadas ferramentas atualizadas de teste de TLS, que avaliam cifras, se as criptografias utilizadas são as mais fortes possíveis, se os protocolos estão ativados;
+- 9.1.3: Verifique que versões desatualizadas dos protocolos SSL e TLS não são utilizadas. Garanta que sempre a versão mais atualizada é utilizada.
+
+## V10: Malicious Code Verification Requirements
+
+Vamos nos proteger de devs demitidos ou mal intencionados.
+
+### V10.3 Code Integrity Control
+
+- 10.3.1: Verifique que, se a aplicação possui um mecanismo de auto-update, as atualizações sejam feitas por meio de um canal seguro e com pacotes digitalmente assinados;
+- 10.3.2: Verifique que a aplicação usa proteções de integridade, como uma assinatura para o código. A aplicação não deve executar código de fontes inseguras;
+- 10.3.3: Verifique que a aplicação está protegida de tomadas de posse de domínio. Crie proteções como mecanismos de checagem de validade de domínio ou mudança em nomes do DNS.
+
+## V11: Business Logic Verification Requirements
+
+### V11.1 Business Logic Security Requirements
+
+- 11.1.1: Verifique que a aplicação vai, para um dado fluxo de aplicação, seguir uma lógica sequancial, sem que haja a possibilidade de burlar etapas. Isso não anula o uso de paralelismo, mas a pretenção é dizer que para cada etapa, se existir uma condição anterior para que funcione, essa condição precisa ser executada;
+- 11.1.2: Verifique que a aplicação terá suas funcionalidades executadas em um tempo humanamente possível, seguindo casos razoáveis;
+- 11.1.3: Verifique que a aplicação possui limites de ações, principalmente por usuário;
+- 11.1.4: Verifique que a aplicação possui controles anti-automação, a fim de evitar extrações e ataques em um volume gigantesco, como observado em ataques DDoS;
+- 11.1.5: Verifique que a aplicação possui limites a fim de evitar riscos atrelados às regras de negócio.
+
+## V12: File and Resources Verification Requirements
+
+### V12.1 File Upload Requirements
+
+- 12.1.1: Verifique que a aplicação não aceitará arquivos grandes de mais de tal modo que trave os serviços.
+
+### V12.3 File execution Requirements
+
+- 12.3.1: Verifique que os metadados de arquivos não sejam utilizados diretamente no sistema, a fim de evitar injeções;
+- 12.3.2: Verifique que os metadados enviados por meio de arquivos são validados ou ignorados para prevenir alterações no arquivo ou no espaço em que é armazenado;
+- 12.3.3: Verifique que os metadados enviados por meio de arquivos são validados ou ignorados de modo a evitar SSRF;
+- 12.3.4: Verifique que a aplicação se protege contra reflective file download (RFD), validando ou ignorando nomes de arquivo em um parâmetro JSON, JSONP ou de URL. A resposta do header Content-Type tem que ser text/plain e a header Content-Disposition deve ter um nome fixo;
+- 12.3.5: Verifique que metadados de arquivos vindos do cliente não sejam utilizados diretamente pela API, também com o objetivo de prevenir ataques.
+
+### V12.4 File Storage Requirements
+
+- 12.4.1: verifique que arquivos obtidos de fontes não confiáveis sejam armazenados com limites de permissões, sem serem executáveis e após uma forte validação;
+- 12.4.2: Verifique que arquivos de fontes não confiáveis passam por uma triagem de um antivirus.
+
+### V12.5 File Download Requirements
+
+- 12.5.1: Verifique que a camada da web está configurada para entregar arquivos com determinadas extensões, já definidas pela aplicação;
+- 12.5.2: Verifique que arquivos entregues não serão interpretados como HTML/JS.
+
+### V12.6 SSRF Protection Requirements
+
+- 12.6.1: Verifique que o servidor da aplicação acesse uma lista positiva de recursos (Ex: o uso de uma store para acessar caminhos de APIs em JSON).
+
+## V13: API and Web Service Verification Requirements
+
+### V13.1 Generic Web Service Security Verification Requirements
+
+- 13.1.1: Verifique que os componentes da aplicação usa os mesmo encodings e parsers para evitar ataques que explorem parsing de arquivos, que poderia ser usado para ataques SSRF e RFI;
+- 13.1.2: Verifique que o acesso de funcionalidades de gerenciamento está limitado aos administradores;
+- 13.1.3: Verifique que URLs de API não expõe dados sensíveis, como API keys, session tokens etc.
+
+É claro que os cuidados precisam ser os mesmos para qualquer tipo de acesso.
+
+### V13.2 RESTful Web Service Verification Requirements
+
+- 13.2.1: Verifique que os métodos HTTP desejados representam uma escolha válida para um dado endpoint;
+- 13.2.2: Verifique que há um JSON schema que valide a entrada do usuário;
+- 13.2.3: Verifique que os serviços web que utilizam cookies estejam protegidos de ataques contra cookies.
+
+Vale lembrar de que, na comunicação entre serviços, todo input precisa ser validado e sanitizado.
+
+## V14: Configuration Verification Requirements
+
+### V14.2 Dependency
+
+- 14.2.1: Verifique que todos os componentes estão atualizados, preferencialmente usando um dependency checker durante o build;
+- 14.2.2: Verifique que todas as ferramentas, documentações, demonstrações etc. desnecessárias **não** são utilizadas;
+- 14.2.3: Verifique que assets gerais, armazenados externamente, são validados por meio de Subresource Integrity (SRI), que emprega um hash, por exemplo, como forma de validação.
+
+### 14.3 Unintended Security Disclosure Requirements
+
+- 14.3.1: Verifique que mensagens de erro da aplicação são configuraddas para entregar ao usuário respostas customizadas e acionáveis a fim de eliminar qualquer brecha de segurança;
+- 14.3.2: Verifique que o modo de depuração está desativado em produção, de modo a evitar recursos adicionais, como acesso a logs em níveis indesejados para ocasião;
+- 14.3.3: Verifique que os headers HTTP ou qualquer trecho de uma resposta HTTP não entreguem dados relacionados às versões dos componentes do sistema.
+
+### 14.4 HTTP Security Headers Requirements
+
+- 14.4.1: Verifique que a resposta HTTP possui um header content type especificado e o encoding apropriado/desejado;
+- 14.4.2: Verifique que todas as respostas de API possuam `Content-Disposition: attachment; filename="api.json"`, por exemplo;
+- 14.4.3: Verifique que exista uma content security policy de modo a ajudar a mitigar ataques;
+- 14.4.4: Verifique que todas as respostas contenhan `X-Content-Type-Options: nosniff`, de modo a evitar adivinhações mesmo que o content type tenha sido explicitamente declarado;
+- 14.4.5: Verifique que haja o uso de headers HTTP Strict Transport Security;
+- 14.4.6: Verifique que o referrer-policy é usado;
+- 14.4.7: Verifique que X-Frame-Options ou Content-Securty-Policy são usados, a fim de controlar embeddings da página web por terceiros.
+
+### 14.5 Validate HTTP Request Header Requirements
+
+- 14.5.1: Verifique que o servidor aceita somente métodos HTTP que se encontram em uso pela aplicação ou API;
+- 14.5.2: Verifique que o cabeçalho Origin não é utilizado para autenticação ou controle de acesso. Mas, por que o cookie é utilizado? No cookie, é possível validar a sua integridade por meio de um hash, o que aumenta a segurança da comunicação;
+- 14.5.3: Verifique que, para evitar o ataque de cross-domain resource sharing (CORS), o cabeçalho Access-Control-Allow-Origin usa uma lista positiva de domínios confiáveis para que não seja suportado o domínio "null".
